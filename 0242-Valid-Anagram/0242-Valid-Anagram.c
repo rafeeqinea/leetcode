@@ -1,33 +1,49 @@
 #include <stdbool.h>  // for bool, true, false
+#include <string.h>   // for strlen
 
-bool isAnagram(char* s, char* t) {
-    // Step 1: Count how many letters are in each string
-    int count[26] = {0};  // 26 letters a-z, all set to 0
+bool isAnagram(char *s, char *t)
+{
+    // Step 1: Check if lengths are same
+    int i = 0;
+    while (s[i] != '\0')
+        i++;
+    int len_s = i;
 
-    // Step 2: Traverse the first string `s` and increment letter counts
-    for (int i = 0; s[i] != '\0'; i++) {
-        int index = s[i] - 'a';  // get index 0–25
-        count[index]++;          // count this character
+    i = 0;
+    while (t[i] != '\0')
+        i++;
+    int len_t = i;
+
+    if (len_s != len_t)
+        return false;
+
+    // Step 2: Create count array of size 26 (a to z)
+    int count[26];
+    i = 0;
+    while (i < 26)
+    {
+        count[i] = 0;
+        i++;
     }
 
-    // Step 3: Traverse second string `t` and decrement letter counts
-    for (int i = 0; t[i] != '\0'; i++) {
-        int index = t[i] - 'a';  // get index 0–25
-        count[index]--;          // remove one letter
+    // Step 3: Count each char from s and t
+    i = 0;
+    while (s[i] != '\0')
+    {
+        count[s[i] - 'a']++;  // add 1 for s
+        count[t[i] - 'a']--;  // subtract 1 for t
+        i++;
+    }
 
-        // If count goes below 0 → t has more of a letter than s → not an anagram
-        if (count[index] < 0) {
+    // Step 4: Check if all counts are 0
+    i = 0;
+    while (i < 26)
+    {
+        if (count[i] != 0)
             return false;
-        }
+        i++;
     }
 
-    // Step 4: Check if both strings were same length
-    for (int i = 0; i < 26; i++) {
-        if (count[i] != 0) {
-            return false;  // some letter count didn't match
-        }
-    }
-
-    return true;  // everything matched → it's an anagram
+    return true;
 }
 
