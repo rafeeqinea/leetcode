@@ -62,4 +62,3 @@ char*** groupAnagrams(char** strs, int strsSize, int* returnSize, int** returnCo
 
     return res;
 }
-
